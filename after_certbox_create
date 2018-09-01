@@ -1,0 +1,29 @@
+#!/bin/bash
+
+while getopts ":d:p:" opt; do
+  case $opt in
+    d) domain="$OPTARG"
+    ;;
+    p) p_out="$OPTARG"
+    ;;
+    \?) echo "Invalid option -$OPTARG" >&2
+    echo "Command ended with return code 0"
+    exit 0
+    ;;
+  esac
+done
+
+if [ -z "$domain" ]
+then
+      echo "Error: Parameter -d is empty"
+      exit 0
+fi
+
+echo "Renaming certificates to their domain name"
+echo "cert.pem will become $domain.crt"
+echo "privkey.pem will become $domain.key"
+
+echo "Friendly reminder: If there is a problem with finding cert.pem and privkey.pem, try cert1.pem and privkey1.pem"
+
+mv /etc/letsencrypt/archive/$domain/cert.pem /etc/letsencrypt/archive/$domain/$domain.crt
+mv /etc/letsencrypt/archive/$domain/privkey.pem /etc/letsencrypt/archive/$domain/$domain.key

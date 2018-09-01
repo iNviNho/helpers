@@ -1,0 +1,31 @@
+#!/bin/bash
+
+while getopts ":d:p:" opt; do
+  case $opt in
+    d) domain="$OPTARG"
+    ;;
+    p) p_out="$OPTARG"
+    ;;
+    \?) echo "Invalid option -$OPTARG" >&2
+    echo "Command ended with return code 0"
+    exit 0
+    ;;
+  esac
+done
+
+if [ -z "$domain" ]
+then
+      echo "Error: Parameter -d is empty"
+      exit 0
+fi
+
+echo "Make sure to have DNS record of type CAA for authorization:letsencrypt.org with tag:issue"
+
+echo "Make sure to have open port (maybe stop nginx|apache) and select option 2 - Spin up a temporary webserver"
+
+echo "Starting generating certificates for $domain and www.$domain"
+
+sudo certbot certonly --agree-tos --rsa-key-size 4096 \
+    -d $domain \
+    -d www.$domain \
+    --renew-by-default
