@@ -17,7 +17,7 @@ In order to use certbot, don't forget to setup:
 - certbot command creates 2 certificates (1 for domain, 1 for domain with www prefix)
 - I suggest you to spin up temporary webserver for creating certs (maybe nginx|apache should be stopped for a while)
 
-*create_certbox_certs -d*
+*create_certbox_certs -d*  
 *after_certbox_create -d*
 
 Happy using :)
