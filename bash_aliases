@@ -1,0 +1,1 @@
+alias dps='docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Ports}}\t{{.RunningFor}}\t{{.Status}}" | (read -r; printf "%s\n" "$REPLY"; sort -k 2 )'
