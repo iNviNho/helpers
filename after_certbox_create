@@ -1,10 +1,10 @@
 #!/bin/bash
 
-while getopts ":d:p:" opt; do
+while getopts ":d:f:" opt; do
   case $opt in
     d) domain="$OPTARG"
     ;;
-    p) p_out="$OPTARG"
+    f) folder="$OPTARG"
     ;;
     \?) echo "Invalid option -$OPTARG" >&2
     echo "Command ended with return code 0"
@@ -19,11 +19,19 @@ then
       exit 0
 fi
 
-echo "Renaming certificates to their domain name"
-echo "cert.pem will become $domain.crt"
-echo "privkey.pem will become $domain.key"
+if [ -z "$folder" ]
+then
+	echo "Error: parameter -f is empty"
+	exit 0
+fi
 
-echo "Friendly reminder: If there is a problem with finding cert.pem and privkey.pem, try cert1.pem and privkey1.pem"
+echo "Copying certificates from /etc/letsencrypt/archive/$folder to /etc/letsencrypt/archive/certs"
 
-mv /etc/letsencrypt/archive/$domain/cert.pem /etc/letsencrypt/archive/$domain/$domain.crt
-mv /etc/letsencrypt/archive/$domain/privkey.pem /etc/letsencrypt/archive/$domain/$domain.key
+
+cp /etc/letsencrypt/archive/$folder/privkey1.pem /etc/letsencrypt/archive/certs/$domain.key
+
+
+cp /etc/letsencrypt/archive/$folder/fullchain1.pem /etc/letsencrypt/archive/certs/$domain.crt
+
+
+cp /etc/letsencrypt/archive/$folder/cert1.pem /etc/letsencrypt/archive/certs/$domain.chain.pem
